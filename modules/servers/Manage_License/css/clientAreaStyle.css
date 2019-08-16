@@ -1,0 +1,9 @@
+.alert.alert-danger.alert-dismissible{
+    position: fixed;
+    z-index: 6000000;
+    margin: auto;
+    /* right: 100px; */
+    top: 10%;
+    right: 50%;
+
+}
