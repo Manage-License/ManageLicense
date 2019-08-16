@@ -2,20 +2,24 @@
 if (!defined("WHMCS")) {
     die("This file cannot be accessed directly");
 }
+
+require_once(ROOTDIR . DS . 'modules' . DS . 'addons' . DS . 'manage_license' . DS."libs".DS."bootstrap.php");
 use WHMCS\Database\Capsule as DB;
+use ML_Addon\test;
+use ML_Addon\WHMCSconnect\getLang;
 
 if (!defined('DS'))
     define('DS', DIRECTORY_SEPARATOR);
 
-GLOBAL $dir;
-GLOBAL $language;
-
+//GLOBAL $dir;
+//GLOBAL $language;
+//
 $dir = ROOTDIR.DS.'modules' . DS . 'servers' . DS . 'Manage_License' . DS;
-$language = strtolower($_SESSION['Language']);
-$language = $dir . DS . 'lang' . DS . $language . '.php';
-
-if (!file_exists($language))
-$language = $dir . DS . 'lang' . DS . 'english.php';
+//$language = strtolower($_SESSION['Language']);
+//$language = $dir . DS . 'lang' . DS . $language . '.php';
+//
+//if (!file_exists($language))
+//$language = $dir . DS . 'lang' . DS . 'english.php';
 
 require_once($dir . 'lib' . DS . 'MLclass.php');
 
@@ -55,6 +59,14 @@ function manage_license_loadProducts(array $params)
 
 function Manage_License_CreateAccount(array $params)
 {
+
+//	echo "<pre>";
+//	$test = json_decode(json_encode($params))->customfields;
+//	foreach ($test as $key =>$te)
+//	var_dump($key );
+//	$lang = new getLang();
+//	var_dump(getLang::loadLang() );
+//	die;
     try {
         if ($params['addonId'] == 0) {
             $api = new manageLicense($params);
@@ -500,10 +512,10 @@ function Manage_License_AdminServicesTabFieldsSave(array $params)
 
 function Manage_License_ClientArea(array $params)
 {
-
+	$_LANG = getLang::loadLang();
+//	var_dump($_LANG['ContactAdmin']);
     if ($params['addonId'] == 0) {
-require ($GLOBALS['language']);
-        try {
+         try {
 //$errorTem= $GLOBALS['dir'].'templates'.DS.'error.tpl';
 //var_dump($GLOBALS['language']);
 	        if ($params['status'] != "Active"){
@@ -572,8 +584,7 @@ require ($GLOBALS['language']);
                 if (isset($_REQUEST['changeip']) && $_REQUEST['changeip'] != '') {
 
                     $ip = $_REQUEST['changeip'];
-
-                    if (!empty($ip) && filter_var($ip, FILTER_VALIDATE_IP)) {
+                     if (!empty($ip) && filter_var($ip, FILTER_VALIDATE_IP)) {
                         if ((explode("|", $params['configoption1'])[0] == "cPanel" ||
                                 explode("|", $params['configoption1'])[0] == "DirectAdmin" ||
                                 explode("|", $params['configoption1'])[0] == "CloudLinux") &&
@@ -632,8 +643,7 @@ require ($GLOBALS['language']);
                     ),
                 );
             }
-
-            if ($api->response["changeip"] == "True") {
+             if ($api->response["changeip"] == "True") {
                 Manage_License_changeIpCredit($params, $api->response["lid"], $api->response["ip"]);
             }
             if ($api->response["changeip"] == "False") {
@@ -818,7 +828,7 @@ function Manage_License_change_ip(array $params)
                         echo json_encode($api);
                     } else {
 	                    logActivity($api->response);
-                        if ($api->response['chageipok']) {
+                        if ($api->response['changeipok']) {
                             update_query('tblhosting', array('domain' => $_REQUEST['changeIP'],),
                                 array('id' => $params["serviceid"],));
 

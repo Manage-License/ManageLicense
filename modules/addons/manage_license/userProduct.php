@@ -3,7 +3,7 @@
 
 require_once(dirname(dirname(dirname(dirname(__FILE__))))."/init.php");
 
-require_once("functions.php");
+//require_once("functions.php");
 if (!defined("WHMCS")) {
     die("This file cannot be accessed directly");
 }

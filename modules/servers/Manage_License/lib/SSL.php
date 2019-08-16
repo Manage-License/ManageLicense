@@ -12,6 +12,7 @@
  * @author P.Majma <pegahmajma@gmail.com>
  */
 // Convert to array
+//var_dump($_LANG);
 $currencies = json_decode(file_get_contents("resources/country/dist.countries.json"), true);
 $response = array(
     'licenseInfo' => $api->response,

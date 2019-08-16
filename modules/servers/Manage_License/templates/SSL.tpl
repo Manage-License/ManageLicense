@@ -1,4 +1,4 @@
-{if $licenseInfo.showForm == true}
+ {if $licenseInfo.showForm == true}
     <div class="tab-content clearfix">
         <div class="tab-pane active" id="tab0">
             <div id="tableServicesList_wrapper" class="dataTables_wrapper dt-bootstrap no-footer">
@@ -620,7 +620,7 @@
                                     </tr>
                                     <tr role="row" class="odd">
                                         <td class="sorting_1"><strong>{$LANG.Address}</strong></td>
-                                        <td class="text-center">{$record.details.orderDetails.requestorInfo.addressLine1}</td>
+                                         <td class="text-center">{$record.details.orderDetails.requestorInfo.addressLine1}</td>
                                     </tr>
                                     <tr role="row" class="even">
                                         <td class="sorting_1"><strong>{$LANG.City}</strong></td>

@@ -21,7 +21,7 @@ function userDetails()
 
     $data = json_decode(curl_exec($ch));
     curl_close($ch);
-    var_dump($data);die;
+//    var_dump($data);die;
 
     if ($data->response->stats->productsnumother < 10)
         $role = "stater";
