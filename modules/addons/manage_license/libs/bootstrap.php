@@ -13,4 +13,3 @@ if (!defined('DS'))
 //firs file must be include
 require_once (__DIR__.DS."vendor".DS."autoload.php");
 require_once (__DIR__.DS."IrDate.php");
-require_once (__DIR__.DS."Update.php");

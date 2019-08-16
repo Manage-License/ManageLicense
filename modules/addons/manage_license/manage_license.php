@@ -18,11 +18,10 @@ use Illuminate\Database\Capsule\Manager as DB;
 function manage_license_config() {
 	return array(
 		"name"        => "Manage License",
-		"description" => "for manage all product reserved",
-		"version"     => "1.0",
+		"description" => "For manage all product reserved",
+		"version"     => "1.1.1",
 		"language"    => "english",
-		"author"      => "<a class='btn btn-info btn-sm' href='https://nicsepehr.com/' target='_blank' >With<span class='glyphicon glyphicon-heart red '></span>NicSepehr Co</a> ",
-
+ 		"author" => "Great world Lovers",
 	);
 
 }
@@ -766,23 +765,23 @@ function manage_license_sidebar() {
 	return $code;
 }
 
-function decryptPass( string $password ) {
-	$res           = DB::table( "tbladmins" )->where( "roleid", "1" )->first();
-	$command       = 'DecryptPassword';
-	$postData      = array(
-		'password2' => $password,
-	);
-	$adminUsername = (string) $res->username; // Optional for WHMCS 7.2 and later
-
-	$results = localAPI( $command, $postData, $adminUsername );
-	if ( $results["result"] != "success" ) {
-		logActivity( "error in ganarete" . $results["message"] );
-
-		return false;
-	}
-
-	return $results["password"];
-}
+//function decryptPass( string $password ) {
+//	$res           = DB::table( "tbladmins" )->where( "roleid", "1" )->first();
+//	$command       = 'DecryptPassword';
+//	$postData      = array(
+//		'password2' => $password,
+//	);
+//	$adminUsername = (string) $res->username; // Optional for WHMCS 7.2 and later
+//
+//	$results = localAPI( $command, $postData, $adminUsername );
+//	if ( $results["result"] != "success" ) {
+//		logActivity( "error in ganarete" . $results["message"] );
+//
+//		return false;
+//	}
+//
+//	return $results["password"];
+//}
 
 function urlGenerate( array $params ) {
 	$url    = $params['serverhostname'];
