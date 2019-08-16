@@ -152,7 +152,7 @@ class UI {
 	}
 
 	private function renderServer() {
-		$server = Capsule::table( 'tblservers' )->where( 'type', 'Manage_License0' )->first();
+		$server = Capsule::table( 'tblservers' )->where( 'type', 'Manage_License' )->first();
 
 		if ( ( ! isset( $_REQUEST['SId'] ) || ! is_numeric( $_REQUEST['SId'] ) ) && $server ) {
 			up:
