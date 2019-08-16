@@ -16,6 +16,7 @@ class UI {
 
 	public function __construct( array $array ) {
 		$this->vars = $array;
+		if(!isset($_GET['update']))
 		$this->renderServer();
 
 
@@ -46,12 +47,7 @@ class UI {
 		if ( $this->error ) {
 			echo '<div class="alert alert-danger text-center">' . $this->massage . '</div>';
 		} else {
-			$SId = isset( $_REQUEST['SId'] ) ?? null;
-			if ( ! $SId ) {
-				$this->renderServer();
 
-				return;
-			}
 				$action =  isset( $_REQUEST['Action'] ) ? isset( $_REQUEST['Action'] ) : "ClientInfo";
 
 
@@ -152,6 +148,7 @@ class UI {
 	}
 
 	private function renderServer() {
+
 		$server = Capsule::table( 'tblservers' )->where( 'type', 'Manage_License' )->first();
 
 		if ( ( ! isset( $_REQUEST['SId'] ) || ! is_numeric( $_REQUEST['SId'] ) ) && $server ) {
