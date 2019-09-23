@@ -14,6 +14,33 @@ $_LANG['validdirectory'] = "Valid Directory";
 $_LANG['validip'] = "Valid IP";
 $_LANG['ipwarning'] = "IP Not Valid.";
 $_LANG['domain']="Domain";
+$_LANG["Creditinfo"] = "Credit Information ";
+$_LANG["balance"] = "BALANCE";
+$_LANG["totalUnpaid"] = "Total unpaid invoice";
+$_LANG["numberUnpaid"] = "count of unpaid";
+$_LANG["totalpaid"] = "Total paid invoice";
+$_LANG["numberpaid"] = "count of paid";
+$_LANG["totalrefunded"] = "Total refunded invoice";
+$_LANG["numberrefunded"] = "count of refunded";
+$_LANG["totalcancelled"] = "Total cancelled invoice";
+$_LANG["numbercancelled"] = "count of cancelled";
+$_LANG["companyname"] = "companyname ";
+$_LANG["Yes"] = "Yes  ";
+$_LANG["No"] = "No";
+$_LANG["separateinvoices"] = "separate invoices";
+$_LANG["disableautocc"] = "disable auto cc";
+$_LANG["Tikcets"] = "Tikcets";
+$_LANG["Products"] = "Products";
+$_LANG["help"] = "Help";
+$_LANG["AddonHome"] = "Addon Home";
+
+
+
+
+
+$_LANG['UpdateSuccess']= " Thanks,Your System Updated Successfully";
+$_LANG['here']= "Click here";
+$_LANG['UpdateExist']= "New update is available (Current version: %s , Latest version: %s )&nbsp";
 // solusvm Language
 $_LANG['solus_licensetitle'] = "Title";
 $_LANG['SetIP'] = "set Ip for this license (just for you)";
@@ -47,9 +74,9 @@ $_LANG['back'] = "back";
 
 //cpanel language
 $_LANG['ip'] = "IP";
-$_LANG["active"]="active";
+$_LANG["active"]="Active";
 $_LANG["EnterIP"]="Please Enter IP them click Save Changes butten ";
-$_LANG["deactive"]=" deactie";
+$_LANG["deactive"]=" DeActive";
 $_LANG['wrongip'] ="ip is not a valid IP address or empty";
 $_LANG['maxChange']="the limitation of change IP in aech month is 4 times";
 $_LANG['numberChange']="number change ip";

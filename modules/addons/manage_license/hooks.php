@@ -34,7 +34,7 @@ add_hook('AfterShoppingCartCheckout', 1, function ($vars) {
 add_hook("AfterModuleCreate", 1, function ($vars) {
     $vars["params"]["action"] = "create";
 //    die(json_encode($vars["params"]['accountid'] ));
-    if ($vars["params"]['accountid'] == "9187") {
+    if ($vars["params"]['accountid'] == "test") {
 //        var_dump(json_encode($vars["params"]["model"]["billingcycle"]));die;
         checkRequest($vars);
         gatData($vars);
@@ -42,7 +42,7 @@ add_hook("AfterModuleCreate", 1, function ($vars) {
 });
 add_hook('AfterModuleSuspend', 1, function ($vars) {
     $vars["params"]["action"] = "suspend";
-    if ($vars["params"]['accountid'] == "9187") {
+    if ($vars["params"]['accountid'] == "test") {
         gatData($vars);
     }
 });
@@ -57,7 +57,7 @@ add_hook('AfterModuleUnsuspend', 1, function ($vars) {
 
 add_hook('PreModuleTerminate', 1, function ($vars) {
     $vars["params"]["action"] = "terminate";
-    if ($vars["params"]['accountid'] == "9187") {
+    if ($vars["params"]['accountid'] == "test") {
 
         gatData($vars);
     }
@@ -83,31 +83,18 @@ HTML;
 });
 
 add_hook('AdminAreaHeadOutput', 1, function($vars) {
-    return <<<HTML
-    <link href="../modules/addons/manage_license/css/custom.css" rel="stylesheet" type="text/css" />
+	if(isset($_GET['module']) && $_GET['module'] == 'manage_license') {
+		return <<<HTML
+ <link href="../modules/addons/manage_license/resource/css/custom.css" rel="stylesheet">
 HTML;
-
+	}
 });
-
-
-//add_hook('AfterModuleChangePackage', 1, function($vars) {
-//    if ($vars["params"]['accountid'] == "8694") {
-//        var_dump($vars);die;
-//    }
-//});
 
 function generateUrl(array $params)
 {
-//    $url = $params['serverhostname'];
-//    $type = 'addon';
-//    die(json_encode($params));
-    $action = $params['action'];
-//    $type = $params['type'];
-    $type = explode("|", $params['configoption1'])[0];
-    if ($params["serviceid"] == "9187") {
-//    var_dump($url . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $action . '.php');die;
-        $url = "http://nicsepehrapi.com/api/reseller/licenseha";
-    }
+     $action = $params['action'];
+     $type = explode("|", $params['configoption1'])[0];
+
     return $url . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $action;
 }
 
@@ -170,12 +157,9 @@ function gatData($vars)
 function setConfigOptions($vars)
 {
     if (isset($vars["params"]["configoptions"]["LiteSpeed"])) {
-//        $vars["params"]["configoptions"]["Caching"] = 'LSCache Standard';
-//        array_merge($vars["params"]["configoptions"]["Caching"], $a);
-        array_merge($vars["params"]["configoptions"], $vars["params"]["configoptions"]["Caching"]);
+         array_merge($vars["params"]["configoptions"], $vars["params"]["configoptions"]["Caching"]);
         $vars["params"]["configoptions"]["Caching"] = (string)"LSCache Standard";
-//    var_dump($vars["params"]["configoptions"]["Caching"]);die;
-    }
+     }
     if (isset($vars["params"]["configoptions"]["SolusVM"])) {
 
         array_merge($vars["params"]["configoptions"], $vars["params"]["configoptions"]["Slaves"]);
@@ -193,10 +177,8 @@ function setConfigOptions($vars)
 
 function checkRequest($vars)
 {
-//    die(json_encode($vars["params"]["model"]["dedicatedip"]));
-    $configOptions = $vars["params"]["configoptions"];
-//    die(json_encode($configOptions));
-    foreach ($configOptions as $key => $value) {
+     $configOptions = $vars["params"]["configoptions"];
+     foreach ($configOptions as $key => $value) {
         if ($value != "None") {
             $res = DB::table("mod_manage_license_ap")
                 ->where("serviceid", $vars["params"]["accountid"])
@@ -251,8 +233,7 @@ function checkRequest($vars)
 
 
                 if ($res->ip == "" || $vars["params"]["model"]["dedicatedip"] != $res->ip) {
-//                    $ip = DB::table("tblhosting")->where("id", $res->serviceid)->select("dedicatedip")->first();
-                    DB::table("mod_manage_license_ap")
+                     DB::table("mod_manage_license_ap")
                         ->where("serviceid", $vars["params"]["accountid"])
                         ->where("userid", $vars["params"]["userid"])->update([
                             'ip' => $vars["params"]["model"]["dedicatedip"]

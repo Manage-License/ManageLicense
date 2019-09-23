@@ -46,8 +46,7 @@ class  getLang {
 		if ( ! file_exists( $language ) ) {
 			$language = self::$dir . DS . 'lang' . DS . 'english.php';
 		}
-
-		include_once( $language );
+		include( $language );
 
 		return $_LANG;
 	}

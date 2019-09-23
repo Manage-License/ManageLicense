@@ -19,7 +19,7 @@ function manage_license_config() {
 	return array(
 		"name"        => "Manage License",
 		"description" => "For manage all product reserved",
-		"version"     => "1.1.1",
+		"version"     => "4.0.1",
 		"language"    => "english",
  		"author" => "Great world Lovers",
 	);
@@ -28,12 +28,14 @@ function manage_license_config() {
 
 function manage_license_activate() {
 	try {
-		DB::schema()->create( 'mod_manage_license_subproduct', function ( $table ) {
+		if (!DB::schema()->hasTable('mod_manage_license_subproduct'))
+			DB::schema()->create( 'mod_manage_license_subproduct', function ( $table ) {
 			$table->increments( 'id' );
 			$table->integer( 'name' );
 			$table->integer( 'gid' );
 		} );
-		DB::schema()->create( 'mod_manage_license_ap', function ( $table ) {
+		if (!DB::schema()->hasTable('mod_manage_license_ap'))
+			DB::schema()->create( 'mod_manage_license_ap', function ( $table ) {
 			$table->increments( 'id' );
 			$table->integer( 'serviceid' );
 			$table->integer( 'licenseid' )->nullable();
@@ -54,13 +56,15 @@ function manage_license_activate() {
 			] )->default( 'Pending' );
 			$table->dateTime( 'lastDate' )->default( date( "Y-m-d", time() ) );
 		} );
-		DB::schema()->create( 'mod_manage_license_productOptions', function ( $table ) {
+		if (!DB::schema()->hasTable('mod_manage_license_productOptions'))
+			DB::schema()->create( 'mod_manage_license_productOptions', function ( $table ) {
 			$table->increments( 'id' );
 			$table->integer( 'product_id' );
 			$table->string( 'configKey', 100 );
 			$table->string( 'configValue', 100 );
 		} );
-		DB::schema()->create( 'mod_manage_license_products', function ( $table ) {
+		if (!DB::schema()->hasTable('mod_manage_license_products'))
+			DB::schema()->create( 'mod_manage_license_products', function ( $table ) {
 			$table->increments( 'id' );
 			$table->string( 'option', 20 );
 			$table->string( 'suboption', 20 );
@@ -69,7 +73,8 @@ function manage_license_activate() {
 			$table->string( 'licensekey', 50 )->nullable();
 
 		} );
-		DB::schema()->create( 'mod_manage_license_settings', function ( $table ) {
+		if (!DB::schema()->hasTable('mod_manage_license_settings'))
+			DB::schema()->create( 'mod_manage_license_settings', function ( $table ) {
 			$table->increments( 'id' );
 			$table->string('name', 100);
 			$table->string('key', 100);
@@ -88,6 +93,7 @@ function manage_license_activate() {
 function manage_license_deactivate() {
 	try{
 		DB::schema()->dropIfExists('mod_manage_license_settings');
+		DB::schema()->dropIfExists('mod_manage_license_ap');
 		DB::schema()->dropIfExists('mod_manage_license_products');
 		DB::schema()->dropIfExists('mod_manage_license_productOptions');
 		DB::schema()->dropIfExists('mod_manage_license_subproduct');
@@ -105,156 +111,6 @@ echo (new UI($vars))->output();
 
 }
 
-//function manage_license_output( array $vars ) {
-//
-//
-//    	$message = "";
-//	if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'SolusVM' ) {
-//		License_List( "SolusVM" );
-//	} else if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'Whmcs' ) {
-//		License_List( "Whmcs" );
-//	} else if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'LiteSpeed' ) {
-//		License_List( "LiteSpeed" );
-//	} else if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'KernelCare' ) {
-//		License_List( "KernelCare" );
-//	} else if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'CloudLinux' ) {
-//		License_List( "CloudLinux" );
-//	} else if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'Imunify360' ) {
-//		License_List( "Imunify360" );
-//	} else if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'plesk' ) {
-//		License_List( "plesk" );
-//	} else if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'cPanel' ) {
-//		License_List( "cPanel" );
-//	} else if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'invoices' ) {
-//		Invoice_List();
-//	} else if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'userdetails' ) {
-//		userDetails();
-//	} else if ( isset( $_GET["action"] ) && $_GET["action"] == "error" ) {
-//		header( "location:?module=manage_license&show=alertUnSuccess" );
-//	} else if ( isset( $_GET["action"] ) && $_GET["action"] == "success" ) {
-//		header( "location:?module=manage_license&show=alertSuccess" );
-//	} else if ( isset( $_GET["action"] ) && $_GET["action"] == "activeLicense" ) {
-//		activeLicense( $_GET["id"] );
-//	} else if ( isset( $_GET["action"] ) && $_GET["action"] == "deactivateLicense" ) {
-//		deactivateLicense( $_GET["id"] );
-//	} else {
-//		$pArray = [ "cPanel", "Plesk", "CloudLinux", "LiteSpeed", "SolusVM", "Whmcs" ];
-//		$query  = DB::table( "tblproductconfiggroups" )->get();
-//
-//		$html = "";
-//
-//		foreach ( $query as $item ) {
-//			$displayed = "none";
-//			$html      .= "<div  id='col" . $item->id . "'>
-//                    <div class=\" dashboard-panel-item-columns-1\" '>";
-//			$html      .= "<div class=\"panel panel-default widget-support\" data-widget=\"Support\">
-//        <div class=\"panel-heading\">
-//
-//            <h3 class=\"panel-title\">$item->name</h3>
-//        </div>
-//           <div class=\"panel-body\" style=\"display: block;\">
-//           <div class=\"tickets-list\">";
-//
-//			$query2 = DB::table( "tblproductconfigoptions" )->where( "gid", $item->id )->get();
-//			foreach ( $query2 as $item2 ) {
-//
-//				$i = 1;
-//				if ( in_array( $item2->optionname, $pArray ) ) {
-//					$displayed = "block";
-//					//logActivity($item2->optionname);
-//					if ( DB::table( "mod_manage_license_products" )->where( "name", "like", "$item2->optionname%" )->exists() ) {
-//						$html .= "
-//             <div class=\"ticket\">
-//                    <div class=\"pull-right color-blue\">
-//                          <a href='?module=manage_license&action=deactivateLicense&id=" . $item2->id . "' class='btn btn-danger fieldlabel ' >Deactivate</a>
-//                    </div>
-//                    <span>$item2->optionname</span>
-//                </div>";
-//					} else {
-//						$html .= "
-//                    <div class=\"ticket\">
-//                    <div class=\"pull-right color-blue\">
-//                       <a href='?module=manage_license&action=activeLicense&id=" . $item2->id . "' class='btn btn-primary ' >Active</a>
-//                     </div>
-//                    <span>$item2->optionname</span>
-//                    </div> ";
-//					}
-//				} else {
-//					if ( $i == 1 ) {
-//						$i ++;
-//						if ( $displayed == "none" ) {
-//							$html .= "<script>
-//                                        $('#col'+{$item->id}).remove();
-//                                        </script>";
-//						}
-//
-//					}
-//				}
-//			}
-//			$html .= "</div></div>
-//        </div>
-//    </div>
-//</div>";
-//		}
-//		$output = "
-//    <div class='alert alert-danger alert-dismissible' role='alert' id='alertDiv'>
-//      <button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>
-//      <strong>ERROR!</strong> <span></span>
-//    </div>
-//    <div class='waitinf'>
-//    <i class='fas fa-sync fa-spin' ></i>
-//    </div>
-//    <ul class=\"nav nav-tabs admin-tabs\" role=\"tablist\">
-//    <li ><a class=\"tab-top\" href=\"#tab1\" role=\"tab\" data-toggle=\"tab\" id=\"tabLink1\" data-tab-id=\"1\" >product</a></li>
-//    <li><a class=\"tab-top\" href=\"#tab2\" role=\"tab\" data-toggle=\"tab\" id=\"tabLink5\" data-tab-id=\"5\">new product </a></li>
-//    <li class=\"active\"><a class=\"tab-top\" href=\"#tab3\" role=\"tab\" data-toggle=\"tab\" id=\"tabLink3\" data-tab-id=\"3\" aria-expanded=\"false\">userProduct</a></li>
-//
-//    </ul>
-//<div class=\"tab-content admin-tabs\">
-//<li class=\"dropdown pull-right tabdrop hide\"><a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\"><i class=\"icon-align-justify\"></i> <b class=\"caret\"></b></a><ul class=\"dropdown-menu\"></ul></li>
-//<div class=\"tab-pane \" id=\"tab1\">
-//<div class='row'>
-//<div class='form col-sm-12 col-lg-12 col-md-6'>";
-//
-//		if ( isset( $_GET["show"] ) ) {
-//			if ( $_GET["show"] == "alertSuccess" ) {
-//				$output .= "<div class=\"alert alert-success\" role=\"alert\">module active success</div>";
-//			} else if ( $_GET[ "show" == "alertUnSuccess" ] ) {
-//				$output .= "<div class=\"alert alert-danger\" role=\"alert\">license not exist</div>";
-//			} else if ( $_GET["show"] == "deleteSuccess" ) {
-//				$output .= "<div class=\"alert alert-success\" role=\"alert\">module delete success</div>";
-//			}
-//		}
-//
-//		$output .= "$html
-//</div>
-//</div>
-//
-//</div>
-//
-//
-//<div class=\"tab-pane \" id=\"tab2\">
-//<div class='row'>
-//
-//<div class='form col-sm-12 col-lg-12 col-md-6'>";
-//		$output .= require "createProduct.php";
-//
-//		$output .= "</div>
-//</div>
-//
-//</div>
-//<div class=\"tab-pane active\" id=\"tab3\">
-//<div class='row'>
-//<div class='form col-sm-12 col-lg-12 col-md-6'>";
-//		$output .= include "userProduct.php";
-//		$output .= "</div></div>
-//</div>
-//</div>";
-//	}
-//
-//
-//	echo $output;
-//}
 
 function manage_license_clientarea( $vars ) {
 	$language = strtolower( $_SESSION['Language'] );
@@ -623,147 +479,101 @@ function activeAddon( $id ) {
 	}
 }
 
-function manage_license_sidebar() {
-
-//    $smarty = new Smarty();
-//    $smarty->display(dirname(__FILE__) . "/template/sidebar.tpl");
+//function manage_license_sidebar() {
 //
-//    $code = "<div class='container'> <nav class='navbar navbar-default'>";
-//    $code = " <div class='list-group'><span style='text-decoration: none;' class='list-group-item active glyphicon glyphicon-save'>Manage Licenses </span>";
-//    if (empty($_GET['action']))
-//        $code .= "<a style='text-decoration: none;' class='list-group-item  list-group-item-success active' href='addonmodules.php?module=manage_license&action=SolusVM'>SolusVM</a>";
-//    else
-//        $code .= "<a style='text-decoration: none;' class='list-group-item' href='addonmodules.php?module=manage_license'>SolusVM</a>";
 //
-//    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'Whmcs')
-//        $code .= "<a style='text-decoration:none;' class='list-group-item  list-group-item-success active' href='addonmodules.php?module=manage_license&action=Whmcs'>WHMCS</a> ";
-//    else
-//        $code .= "<a style='text-decoration:none;' class='list-group-item' href='addonmodules.php?module=manage_license&action=Whmcs'>WHMCS</a> ";
+//	$code = '
 //
-//    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'LiteSpeed')
-//        $code .= "<a style='text-decoration:none;' class='list-group-item  list-group-item-success active' href='addonmodules.php?module=manage_license&action=LiteSpeed'>Litespeed</a> ";
-//    else
-//        $code .= "<a style='text-decoration:none;' class='list-group-item' href='addonmodules.php?module=manage_license&action=LiteSpeed'>Litespeed</a> ";
 //
-//    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'CloudLinux')
-//        $code .= "<a style='text-decoration:none;' class='list-group-item  list-group-item-success active' href='addonmodules.php?module=manage_license&action=CloudLinux'>CloudLinux</a> ";
-//    else
-//        $code .= "<a style='text-decoration:none;' class='list-group-item' href='addonmodules.php?module=manage_license&action=CloudLinux'>CloudLinux</a> ";
+//        <div class="panel-group" id="accordion">
+//            <div class="panel panel-default">
+//                <div class="panel-heading">
+//                    <h4 class="panel-title">
+//                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span
+//                                    class="glyphicon glyphicon-folder-close">
+//</span>Main</a>
+//                    </h4>
+//                </div>
+//                <div id="collapseOne" class="panel-collapse collapse in">
+//                    <div class="panel-body">
+//                        <table class="table table-hover table-striped">
+//                            <tr>
+//                                <td>
+//                                    <span class="glyphicon glyphicon-pencil text-primary"></span><a
+//                                            href="addonmodules.php?module=manage_license">Addon Home</a>
+//                                </td>
+//                            </tr>
+//                            <tr>
+//                                <td>
+//                                    <span class="glyphicon glyphicon-flash text-success"></span><a
+//                                            href="addonmodules.php?module=manage_license&action=invoices">Invoices</a>
+//                                </td>
+//                            </tr>
+//                            <tr>
+//                                <td>
+//                                    <span class="glyphicon glyphicon-flash text-success"></span><a
+//                                            href="addonmodules.php?module=manage_license&action=userdetails">User Details</a>
+//                                </td>
+//                            </tr>
 //
-//    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'KernelCare')
-//        $code .= "<a style='text-decoration:none;' class='list-group-item  list-group-item-success active' href='addonmodules.php?module=manage_license&action=KernelCare'>KernelCare</a> ";
-//    else
-//        $code .= "<a style='text-decoration:none;' class='list-group-item' href='addonmodules.php?module=manage_license&action=KernelCare'>KernelCare</a> ";
+//                        </table>
+//                    </div>
+//                </div>
+//            </div>
+//            <div class="panel panel-default">
+//                <div class="panel-heading">
+//                    <h4 class="panel-title">
+//                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span
+//                                    class="glyphicon glyphicon-th">
+//                            </span>Licenses List</a>
+//                    </h4>
+//                </div>
+//                <div id="collapseTwo" class="panel-collapse collapse">
+//                    <div class="panel-body">
+//                        <table class="table">
+//                            <tr>
+//                                <td>
+//                                    <a href="addonmodules.php?module=manage_license&action=SolusVM">SolusmVM</a>
+//                                </td>
+//                            </tr>
+//                            <tr>
+//                                <td>
+//                                    <a href="addonmodules.php?module=manage_license&action=Whmcs">WHMCS</a>
+//                                </td>
+//                            </tr>
+//                            <tr>
+//                                <td>
+//                                    <a href="addonmodules.php?module=manage_license&action=LiteSpeed">LiteSpeed</a>
+//                                </td>
+//                            </tr>
+//                            <tr>
+//                                <td>
+//                                    <a href="addonmodules.php?module=manage_license&action=CloudLinux">CloudLinux</a>
+//                                </td>
+//                            </tr>
+//                            <tr>
+//                                <td>
+//                                    <a href="addonmodules.php?module=manage_license&action=Imunify360">Imunify360</a>
+//                                </td>
+//                            </tr>
+//                            <tr>
+//                                <td>
+//                                    <a href="addonmodules.php?module=manage_license&action=KernelCare">KernelCare</a>
+//                                </td>
+//                            </tr>
+//                            <tr>
+//                                <td>
+//                                    <a href="addonmodules.php?module=manage_license&action=cPanel">cPanel</a>
+//                                </td>
+//                            </tr>
+//                        </table>
+//                    </div>
+//                </div>
+//            </div>
+//</div>';
 //
-//    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'Imunify360')
-//        $code .= "<a style='text-decoration:none;' class='list-group-item  list-group-item-success active' href='addonmodules.php?module=manage_license&action=Imunify360'>Imunify360</a> ";
-//    else
-//        $code .= "<a style='text-decoration:none;' class='list-group-item' href='addonmodules.php?module=manage_license&action=Imunify360'>Imunify360</a> ";
-//
-//    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'cPanel')
-//        $code .= "<a style='text-decoration:none;' class='list-group-item  list-group-item-success active' href='addonmodules.php?module=manage_license&action=cPanel'>cPanel</a> ";
-//    else
-//        $code .= "<a style='text-decoration:none;' class='list-group-item' href='addonmodules.php?module=manage_license&action=cPanel'>cPanel</a> ";
-//
-//    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'invoices')
-//        $code .= "<a style='text-decoration:none;' class='list-group-item  list-group-item-success active' href='addonmodules.php?module=manage_license&action=invoices'>invoices</a> ";
-//    else
-//        $code .= "<a style='text-decoration:none;' class='list-group-item' href='addonmodules.php?module=manage_license&action=invoices'>invoices</a> ";
-//
-//    $code .= "  </div>";
-//
-	$code = '
-
-    
-        <div class="panel-group" id="accordion">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span
-                                    class="glyphicon glyphicon-folder-close">
-</span>Main</a>
-                    </h4>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse in">
-                    <div class="panel-body">
-                        <table class="table table-hover table-striped">
-                            <tr>
-                                <td>
-                                    <span class="glyphicon glyphicon-pencil text-primary"></span><a
-                                            href="addonmodules.php?module=manage_license">Addon Home</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="glyphicon glyphicon-flash text-success"></span><a
-                                            href="addonmodules.php?module=manage_license&action=invoices">Invoices</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="glyphicon glyphicon-flash text-success"></span><a
-                                            href="addonmodules.php?module=manage_license&action=userdetails">User Details</a>
-                                </td>
-                            </tr>
-                          
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span
-                                    class="glyphicon glyphicon-th">
-                            </span>Licenses List</a>
-                    </h4>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <table class="table">
-                            <tr>
-                                <td>
-                                    <a href="addonmodules.php?module=manage_license&action=SolusVM">SolusmVM</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="addonmodules.php?module=manage_license&action=Whmcs">WHMCS</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="addonmodules.php?module=manage_license&action=LiteSpeed">LiteSpeed</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="addonmodules.php?module=manage_license&action=CloudLinux">CloudLinux</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="addonmodules.php?module=manage_license&action=Imunify360">Imunify360</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="addonmodules.php?module=manage_license&action=KernelCare">KernelCare</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="addonmodules.php?module=manage_license&action=cPanel">cPanel</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-</div>';
-
-	return $code;
-}
+//	return $code;
+//}
 
 //function decryptPass( string $password ) {
 //	$res           = DB::table( "tbladmins" )->where( "roleid", "1" )->first();

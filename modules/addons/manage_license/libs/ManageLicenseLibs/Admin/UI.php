@@ -4,52 +4,74 @@
 namespace ML_Addon\Admin;
 
 use ZipArchive;
-use ML_Addon\Admin\ClinetInfo;
+use  ML_Addon\Admin\ClientInfo;
 use WHMCS\Database\Capsule;
+use WHMCS\Smarty;
+use ML_Addon\connectAPI\guzzleMethod;
+use ML_Addon\WHMCSconnect\getLang;
+
 
 class UI {
 	public $vars = [];
 	public $info = [];
 	public $error = false;
 	public $massage = "error";
+	public $params = [];
+	public $api;
+	public $response;
+	public $smarty;
+	public $Lang;
+	public $tempName ;
+	const tempUrl = ROOTDIR . DS . "modules" . DS . "addons" . DS . "manage_license" . DS . "resource" . DS . "template" . DS;
 
 
 	public function __construct( array $array ) {
 		$this->vars = $array;
-		if(!isset($_GET['update']))
-		$this->renderServer();
+		$this->smarty();
+		$this->lang();
+		if ( ! isset( $_GET['update'] ) ) {
+			$this->renderServer();
+		}
 
 
 	}
 
-
 	public function output() {
-		echo '<div class="alert alert-info text-center">این ماژول در حال بروزرسانی است و در صورت بروزرسانی، در همین جا می توانید مشاهده و بروز رسانی کنید </div>';
-//		if ( version_compare( $this->vars['version'], $remoteVersion = $this->Github( false ) ) ) {
-		if ( version_compare( $this->vars['version'], $remoteVersion = $this->Github( false ) , "<") ) {
+
+ 		$this->smarty->assign( 'back', $this->Lang['back'] );
+	  		echo '<div class="alert alert-info text-center">این ماژول در حال بروزرسانی است و در صورت بروزرسانی، در همین جا می توانید مشاهده و بروز رسانی کنید </div>';
+		if ( version_compare( $this->vars['version'], $remoteVersion = $this->Github( false ), "<" ) ) {
 			if ( isset( $_GET['update'] ) ) {
 				if ( $_GET['update'] == 1 ) {
 					$this->update();
 					header( "Location: addonmodules.php?module=manage_license&update=success" );
 				} else {
-					echo '<div class="alert alert-success text-center">Thanks,Your System Updated Successfully</div>';
+					$this->smarty->assign( 'class', 'success' );
+ 					$this->smarty->assign( 'Massage', $this->Lang['UpdateSuccess'] );
+					$this->smarty->display( self::tempUrl . "Massage.tpl" );
 
+					return;
 
 				}
 			} else {
-				$output  = '<div class="alert alert-info text-center">';
-				$output .= "New update is available (Current version:" . $this->vars['version'] . ", Latest version: $remoteVersion)&nbsp;";
-				$output .= 'click <a href="addonmodules.php?module=manage_license&update=1"><strong>here</strong></a> to update.';
-				$output .= '</div>';
-				echo $output;
+				$this->smarty->assign( 'class', 'info' );
+				$this->smarty->assign( 'update', [ture,$this->vars['version'],$remoteVersion] );
+				$this->smarty->assign( 'Massage', $this->Lang['UpdateExist'] );
+				$this->smarty->assign( 'here', $this->Lang['here'] );
+				$this->smarty->display( self::tempUrl . "Massage.tpl" );
+
 			}
 		}
 		if ( $this->error ) {
-			echo '<div class="alert alert-danger text-center">' . $this->massage . '</div>';
-		} else {
+			$this->smarty->assign( 'class', 'danger' );
+			$this->smarty->assign( 'Massage', $this->massage );
+			$this->smarty->display( self::tempUrl . "Massage.tpl" );
+ 		} else {
 
-				$action =  isset( $_REQUEST['Action'] ) ? isset( $_REQUEST['Action'] ) : "ClientInfo";
+			$action = isset( $_REQUEST['Action'] ) ?  $_REQUEST['Action']  : "ClientInfo";
+ 			$outPut = 'ML_Addon\Admin\\' . $action;
 
+			echo ( new  $outPut() )->outPut();
 
 		}
 	}
@@ -147,7 +169,7 @@ class UI {
 		$zip->close();
 	}
 
-	private function renderServer() {
+	public function renderServer() {
 
 		$server = Capsule::table( 'tblservers' )->where( 'type', 'Manage_License' )->first();
 
@@ -170,17 +192,17 @@ class UI {
 					$this->info['serverhostname'] = $check->hostname;
 					$this->info['serverusername'] = $check->username;
 					$this->info['serverpassword'] = $this->decryptPass( $check->password );
+
 				}
 			}
 
-		}else{
+		} else {
 			$this->error   = true;
 			$this->massage = "You must be complete setting, Please add server and go back hear  
 										<a class='btn btn-info' href='configservers.php' target='_blank'>Click Here</a> ";
 
 		}
 	}
-
 
 	public function decryptPass( string $password ) {
 		$command  = 'DecryptPassword';
@@ -198,4 +220,31 @@ class UI {
 		return $results["password"];
 	}
 
+	public function ServerConnect() {
+		$this->api = new guzzleMethod( $this->params );
+
+		if ( $this->api->error ) {
+			$this->error   = true;
+			$this->massage = $this->api->errorMessage;
+
+			return;
+		}
+		$this->response = $this->api->response;
+
+
+	}
+
+	public function renderTemplte( ) {//string $temp , array $response
+		$this->smarty->assign( 'response', $this->response );
+ 		$this->smarty->display(self::tempUrl.$this->tempName);
+  	}
+
+	public function smarty(){
+		$this->smarty = new Smarty();
+		$this->smarty->assign( 'lang',$this->Lang);
+	}
+	public function lang(){
+		$this->Lang    = (new getLang())->loadLang();
+
+	}
 }

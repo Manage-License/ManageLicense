@@ -1,0 +1,171 @@
+.waitinf{
+    z-index: 2000000;
+   position: fixed;
+    top: 0;
+    display: none;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    text-align: center;
+    background: rgba(0,0,0,.5);
+}
+.waitinf img{
+margin-top: 20%;
+}
+#alertDiv,#alert-div{
+    z-index: 25000;
+    display: none;
+    position: fixed;
+    top: 55px;
+    left: 50px;
+    box-shadow: 1px 2px 20px 0 rgba(251, 255, 231, 0.6);
+}
+.alert-danger{
+    background-color: #c0392b;
+    color: #FFFFFF;
+}
+.fieldset{
+    border: 1px solid #c2c2c2;
+    margin: 12px;
+} .fieldset .legend{
+    width: auto;
+    padding: 8px;
+    border:0;
+    margin-bottom: 0;
+}
+  .fas.fa-sync.fa-spin{
+      color: #FFFFFF;
+      position: absolute;
+      font-size: 26px;
+      top: 50%;
+  }
+.alert-success {
+    color: #d6e9c6;
+    background-color: #3c763d;
+}
+/***
+User Profile Sidebar by @keenthemes
+A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
+Licensed under MIT
+***/
+
+
+/* Profile container */
+.profile {
+    margin: 20px 0;
+}
+
+/* Profile sidebar */
+.profile-sidebar {
+    padding: 20px 0 10px 0;
+    background: #fff;
+}
+
+.profile-userpic img {
+    float: none;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+    -webkit-border-radius: 50% !important;
+    -moz-border-radius: 50% !important;
+    border-radius: 50% !important;
+}
+
+.profile-usertitle {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-usertitle-name {
+    color: #5a7391;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.profile-usertitle-job {
+    text-transform: uppercase;
+    color: #5b9bd1;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.profile-userbuttons {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.profile-userbuttons .btn {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 15px;
+    margin-right: 5px;
+}
+
+.profile-userbuttons .btn:last-child {
+    margin-right: 0px;
+}
+
+.profile-usermenu {
+    margin-top: 30px;
+}
+
+.profile-usermenu ul li {
+    border-bottom: 1px solid #f0f4f7;
+}
+
+.profile-usermenu ul li:last-child {
+    border-bottom: none;
+}
+
+.profile-usermenu ul li a {
+    color: #93a3b5;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.profile-usermenu ul li a i {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.profile-usermenu ul li a:hover {
+    background-color: #fafcfd;
+    color: #5b9bd1;
+}
+
+.profile-usermenu ul li.active {
+    border-bottom: none;
+}
+
+.profile-usermenu ul li.active a {
+    color: #5b9bd1;
+    background-color: #f6f9fb;
+    border-left: 2px solid #5b9bd1;
+    margin-left: -2px;
+}
+
+/* Profile Content */
+.profile-content {
+    padding: 20px;
+    background: #fff;
+    min-height: 460px;
+}
+
+
+
+.banner-img {
+    padding: 5px 5px 0;
+}
+
+.banner-img img {
+    width: 100%;
+    border-radius: 5px;
+}
+.navbar-custom {
+    color: #FFFFFF;
+    background-color: #CC3333;
+}
