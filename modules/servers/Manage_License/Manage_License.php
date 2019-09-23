@@ -2,7 +2,9 @@
 if (!defined("WHMCS")) {
     die("This file cannot be accessed directly");
 }
-
+if ( ! defined( "DS" ) ) {
+	define( 'DS', DIRECTORY_SEPARATOR );
+}
 require_once(ROOTDIR . DS . 'modules' . DS . 'addons' . DS . 'manage_license' . DS."libs".DS."bootstrap.php");
 use WHMCS\Database\Capsule as DB;
 use ML_Addon\test;
@@ -649,7 +651,8 @@ function Manage_License_ClientArea(array $params)
             if ($api->response["changeip"] == "False") {
                 goto error;
             }
-            switch ($type = explode("|", $params['configoption1'])[0]) {
+
+	         switch ($type = explode("|", $params['configoption1'])[0]) {
                 case "Whmcs":
                 case "SolusVM":
                 case "LiteSpeed":
