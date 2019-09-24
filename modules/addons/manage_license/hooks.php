@@ -65,19 +65,19 @@ add_hook('PreModuleTerminate', 1, function ($vars) {
 
 add_hook('AdminAreaFooterOutput', 1, function ($vars) {
     return <<<HTML
-<script type="text/javascript" src="../modules/addons/manage_license/js/functions.js">
+<script type="text/javascript" src="../modules/addons/manage_license/resource/js/functions.js">
 </script>
 HTML;
 });
 add_hook('AdminAreaFooterOutput', 1, function ($vars) {
     return <<<HTML
-<script type="text/javascript" src="../modules/servers/Manage_License/js/script.js">
+<script type="text/javascript" src="../modules/addons/manage_license/resource/js/script.js">
 </script>
 HTML;
 });
 add_hook('AdminAreaFooterOutput', 1, function ($vars) {
     return <<<HTML
-<script type="text/javascript" src="../modules/servers/Manage_License/js/sweetalert.min.js">
+<script type="text/javascript" src="../modules/addons/manage_license/resource/js/sweetalert.min.js">
 </script>
 HTML;
 });

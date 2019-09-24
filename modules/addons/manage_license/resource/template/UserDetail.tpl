@@ -38,7 +38,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 bordered">
 
                             <nav class="navbar navbar-inverse" style="background-color: #1a4d80">
-                                <div class=" navbar-header "><h2 class="text-center"> {$lang.Creditinfo} </h2></div>
+                               <h2 class="text-center"> {$lang.Creditinfo} </h2>
                             </nav>
                             <div class="pic-back"><strong class="text-center"
                                                           style="display: block;color: #000000;">{$lang.balance}</strong>
@@ -86,7 +86,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 bordered">
 
                             <nav class="navbar navbar-inverse" style="background-color: #1a4d80">
-                                <div class=" navbar-header "><h2 class="text-center"> {$lang.Tikcets} </h2></div>
+                                <h2 class="text-center"> {$lang.Tikcets} </h2>
                             </nav>
 
                             <div class="pic-back">
@@ -112,7 +112,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 bordered">
 
                             <nav class="navbar navbar-inverse" style="background-color: #1a4d80">
-                                <div class=" navbar-header "><h2 class="text-center">  {$lang.Products} </h2></div>
+                                <h2 class="text-center">  {$lang.Products} </h2>
                             </nav>
                             <div class="pic-back">
                                 <strong class="text-center"

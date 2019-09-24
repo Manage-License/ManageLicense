@@ -111,7 +111,6 @@ echo (new UI($vars))->output();
 
 }
 
-
 function manage_license_clientarea( $vars ) {
 	$language = strtolower( $_SESSION['Language'] );
 	$lang     = dirname( __FILE__ ) . DS . 'lang' . DS . $language . '.php';
@@ -273,7 +272,6 @@ function manage_license_clientarea( $vars ) {
 	);
 
 }
-
 
 function activeLicense( $id ) {
 	$query = DB::table( "tblproductconfigoptions" )->where( "id", $id )

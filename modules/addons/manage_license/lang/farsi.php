@@ -39,7 +39,14 @@ $_LANG["disableautocc"] = "برداشت خودکار ار موجودی";
 $_LANG["Tikcets"] = "درخواست پشتیبانی";
 $_LANG["Products"] = "سفارش ها ";
 $_LANG["help"] = "راهنما ";
+$_LANG["billing"] = "امور مالی ";
 $_LANG["AddonHome"] = "صفحه اصلی ";
+$_LANG["connect"] = "Connect";
+$_LANG["Option"] = "فروش همراه سرویس";
+$_LANG["Products"] = "فروش لایسنس";
+$_LANG["Reseller"] = "نمایندگی";
+$_LANG["setting"] = "تنظیمات";
+$_LANG["yourservice"] = "سرویس های شما";
 
 $_LANG['here']= "اینجا کلیک کنید";
 $_LANG['UpdateSuccess']= "بروزرسانی ماژول با موفقیت انجام شد ، با تشکر از شما";

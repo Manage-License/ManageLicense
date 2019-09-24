@@ -32,7 +32,18 @@ $_LANG["disableautocc"] = "disable auto cc";
 $_LANG["Tikcets"] = "Tikcets";
 $_LANG["Products"] = "Products";
 $_LANG["help"] = "Help";
+$_LANG["billing"] = "Billing";
+$_LANG["AllInvoices"] = "All Invoices";
+$_LANG["PaidInvoices"] = "Paid Invoices";
+$_LANG["UnpaidInvoices"] = "Unpaid Invoices";
+$_LANG["AddFund"] = "Add Fund";
 $_LANG["AddonHome"] = "Addon Home";
+$_LANG["connect"] = "Connect";
+$_LANG["Option"] = "Option";
+$_LANG["Products"] = "Products";
+$_LANG["Reseller"] = "Reseller";
+$_LANG["setting"] = "Setting";
+$_LANG["yourservice"] = "Your Service";
 
 
 
