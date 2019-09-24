@@ -9,4 +9,4 @@
         {$Massage}
         <a class="btn btn-info" href="addonmodules.php?module=manage_license">{$back}</a>
     {/if}
-</div>';
+</div>

@@ -19,7 +19,7 @@ function manage_license_config() {
 	return array(
 		"name"        => "Manage License",
 		"description" => "For manage all product reserved",
-		"version"     => "4.0.1",
+		"version"     => "4.0.2",
 		"language"    => "english",
  		"author" => "Great world Lovers",
 	);
