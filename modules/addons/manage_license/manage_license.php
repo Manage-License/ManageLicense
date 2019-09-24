@@ -19,7 +19,7 @@ function manage_license_config() {
 	return array(
 		"name"        => "Manage License",
 		"description" => "For manage all product reserved",
-		"version"     => "4.0.2",
+		"version"     => "4.0.3",
 		"language"    => "english",
  		"author" => "Great world Lovers",
 	);
@@ -88,6 +88,10 @@ function manage_license_activate() {
 	}
 
 	return array( 'status' => 'success', 'description' => 'Addon has been successfully activated' );
+}
+function manage_license_upgrade($vars){
+	echo "<div class='alert alert-info'>Addon was updated to version " . $vars['version'] . "</div>";
+	header( "Location: addonmodules.php?module=manage_license" );
 }
 
 function manage_license_deactivate() {
