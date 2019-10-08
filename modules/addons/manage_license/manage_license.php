@@ -18,8 +18,8 @@ use Illuminate\Database\Capsule\Manager as DB;
 function manage_license_config() {
 	return array(
 		"name"        => "Manage License",
-		"description" => "For manage all product reserved",
-		"version"     => "4.0.3",
+		"description" => "For manage all Licenses reserved",
+		"version"     => "4.0.4",
 		"language"    => "english",
  		"author" => "Great world Lovers",
 	);

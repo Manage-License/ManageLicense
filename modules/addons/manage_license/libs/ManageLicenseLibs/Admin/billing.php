@@ -8,7 +8,8 @@ use WHMCS\User\Admin;
 
 class billing extends UI {
 	const tempName = "billing.tpl";
-	private $serverConnect;
+
+
 
 
 	public function __construct() {
@@ -17,17 +18,20 @@ class billing extends UI {
 		$this->renderServer();
 		$this->tempName = self::tempName;
 		$this->params = $this->info;
-		$this->params['serviceid'] =   1;
+		$this->params['sub'] =   $_GET['Sub'] ;
+		$this->params['action'] =   'listUserInvoices';
 		$this->ServerConnect();
 	}
 
 	public function outPut() {
 
 		if ( $this->error ) {
+
 			return '<div class="alert alert-danger text-center">' . $this->massage . '</div>';
 		} else {
 			echo  $this->renderTemplte();
 
 		}
+
 	}
 }

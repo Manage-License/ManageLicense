@@ -44,6 +44,17 @@ $_LANG["Products"] = "Products";
 $_LANG["Reseller"] = "Reseller";
 $_LANG["setting"] = "Setting";
 $_LANG["yourservice"] = "Your Service";
+$_LANG["noinvoice"] = "You have not invoice in  our Sysytem";
+$_LANG["currency"] = "Currency";
+$_LANG["id"] = "ID";
+$_LANG["invoiceId"] = "invoice ID";
+$_LANG["date"] = "Date";
+$_LANG["total"] = "Total";
+$_LANG["paymentmethod"] = "Paymentmethod";
+$_LANG["description"] = "Description";
+$_LANG["countinvoice"] = "last %s invoice";
+
+
 
 
 

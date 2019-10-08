@@ -88,6 +88,7 @@ add_hook('AdminAreaHeadOutput', 1, function($vars) {
  <link href="../modules/addons/manage_license/resource/css/custom.css" rel="stylesheet">
 HTML;
 	}
+
 });
 
 function generateUrl(array $params)

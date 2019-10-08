@@ -63,7 +63,7 @@ class UI {
 			}
 		}
 		if ( $this->error ) {
-			$this->smarty->assign( 'class', 'danger' );
+ 			$this->smarty->assign( 'class', 'danger' );
 			$this->smarty->assign( 'Massage', $this->massage );
 			$this->smarty->display( self::tempUrl . "Massage.tpl" );
  		} else {
@@ -94,7 +94,7 @@ class UI {
 		) );
 		$response = curl_exec( $curl );
 		if ( curl_errno( $curl ) ) {
-			return 'Failed to download archive: ' . curl_error( $ch );
+			return 'Failed to download archive: ' . curl_error( $curl );
 		}
 		curl_close( $curl );
 
@@ -221,6 +221,9 @@ class UI {
 	}
 
 	public function ServerConnect() {
+		$this->params['serviceid'] =   1;
+		$this->params['type'] =   'userActions';
+
 		$this->api = new guzzleMethod( $this->params );
 
 		if ( $this->api->error ) {

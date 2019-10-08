@@ -50,21 +50,18 @@ class guzzleMethod extends \Exception {
 	}
 
 	public function generateUrl( array $params ) {
- //		$url           = $params['serverhostname'];
-		$url           = "https://nicsepehrapi.com/api/reseller/licenseha/userActions/getUserDetails";
-		$type          = isset( $params['serviceid'] ) ? explode( "|", $params['configoption1'] )[0] : $params['type'];
+ 		$url           = $params['serverhostname'];
+		$type          = (isset( $params['serviceid'] )&&  $params['serviceid'] != 1) ? explode( "|", $params['configoption1'] )[0] : $params['type'];
 		$action        = $params['action'];
-		$this->makeUrl = $url  ;
-//		$this->makeUrl = $url . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $action;
-	}
+//		$this->makeUrl = $url  ;
+		$this->makeUrl = $url . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $action;
+  	}
 
 	protected function guzzlelPost( array $params ) {
 		try {
 			$billingcycle = isset( $params['serviceid'] ) ? ( new getServiceInfo( $params ) )->getBilling() : 1;
 			$client       = new Client();
-//			echo "<pre>";
-//			var_dump($params);
-			$response = $client->post( $this->makeUrl, [
+ 			$response = $client->post( $this->makeUrl, [
 
 //                'debug' => TRUE,
 				'body'    => [
@@ -77,9 +74,9 @@ class guzzleMethod extends \Exception {
 			] );
 
 			if ( $response->getStatusCode() == '200' && $response->getReasonPhrase() == 'OK' ) {
+
 				$data = $response->json();
-//				var_dump($data);
-				if ( $data['result'] == "success" ) {
+  				if ( $data['result'] == "success" ) {
 					$this->response = $data['response'];
 				} else {
 					$this->error = true;
@@ -87,12 +84,13 @@ class guzzleMethod extends \Exception {
 						$this->errorMessage .= $val . '-';
 					}
 					$this->errorMessage = substr( $this->errorMessage, 0, - 1 );
-				}
+ 				}
 			} else {
 				$this->error        = true;
 				$this->errorMessage = "result is not valid.";
 			}
 		} catch ( \GuzzleHttp\Exception\ClientException $e ) {
+
 //			throw new DB("Mage mishe ",500);
 //			echo "<pre>";
 //			var_dump( $e->getCode() );

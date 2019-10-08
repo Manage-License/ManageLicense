@@ -47,6 +47,17 @@ $_LANG["Products"] = "فروش لایسنس";
 $_LANG["Reseller"] = "نمایندگی";
 $_LANG["setting"] = "تنظیمات";
 $_LANG["yourservice"] = "سرویس های شما";
+$_LANG["noinvoice"] = "شما در ساایت ما هنور صورتحساب ندارد";
+$_LANG["currency"] = "واحد پول";
+$_LANG["id"] = "ردیف";
+$_LANG["invoiceId"] = "صورتحساب شماره";
+$_LANG["date"] = "تاریخ";
+$_LANG["total"] = "جمع کل";
+$_LANG["paymentmethod"] = "درگاه پرداخت";
+$_LANG["description"] = "توضیحات";
+$_LANG["countinvoice"] = "%s صورتحساب اخر";
+
+
 
 $_LANG['here']= "اینجا کلیک کنید";
 $_LANG['UpdateSuccess']= "بروزرسانی ماژول با موفقیت انجام شد ، با تشکر از شما";

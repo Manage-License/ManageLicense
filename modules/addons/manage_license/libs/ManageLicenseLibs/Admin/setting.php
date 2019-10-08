@@ -3,21 +3,28 @@
 
 namespace ML_Addon\Admin;
 
+use http\Env\Response;
 use WHMCS\User\AdminLog;
 use WHMCS\User\Admin;
+use WHMCS\Product;
+use WHMCS\Database\Capsule as DB;
+use ML_Addon\WHMCSconnect\getProducts;
 
 class setting extends UI {
 	const tempName = "setting.tpl";
-	private $serverConnect;
+	private $serverConnect = true;
+
 
 
 	public function __construct() {
-		$this->lang();
+  		$this->lang();
 		$this->smarty();
 		$this->renderServer();
 		$this->tempName = self::tempName;
 		$this->params = $this->info;
-		$this->params['serviceid'] =   1;
+		$this->params['action'] =   'setting';
+		$this->Callfunction();
+		if($this->serverConnect)
 		$this->ServerConnect();
 	}
 
@@ -30,4 +37,36 @@ class setting extends UI {
 
 		}
 	}
+
+	private function Callfunction(){
+		if(!isset($_REQUEST['Sub'])){
+			$this->serverConnect = false;
+			$this->Products();
+
+
+		}elseif($_REQUEST['Sub'] == 'Products'){
+			$this->Products();
+		}elseif($_REQUEST['Sub'] == 'Option'){
+			$this->Option();
+		}elseif($_REQUEST['Sub'] == 'Reseller'){
+			$this->Reseller();
+		}
+ }
+
+private function Products(){
+
+	if(!isset($_REQUEST['subAction']) || $_REQUEST['subAction'] !="Add" ){
+		$this->serverConnect = false;
+		$this->response  = new getProducts();
+
+	}else{
+
+	}
+}
+private function Option(){
+
+}
+private function Reseller(){
+
+}
 }

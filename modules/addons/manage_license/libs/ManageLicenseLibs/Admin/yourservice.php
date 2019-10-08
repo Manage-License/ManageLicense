@@ -18,6 +18,7 @@ class yourservice extends UI {
 		$this->tempName = self::tempName;
 		$this->params = $this->info;
 		$this->params['serviceid'] =   1;
+		$this->params['action'] =   'listUserLicenses';
 		$this->ServerConnect();
 	}
 
