@@ -19,7 +19,7 @@ function manage_license_config() {
 	return array(
 		"name"        => "Manage License",
 		"description" => "For manage all Licenses reserved",
-		"version"     => "4.0.4",
+		"version"     => "4.0.5",
 		"language"    => "english",
  		"author" => "Great world Lovers",
 	);
@@ -599,9 +599,7 @@ function urlGenerate( array $params ) {
 	$url    = $params['serverhostname'];
 	$type   = 'addon';
 	$action = $params['actions'];
-	if ( $params["serviceid"] == "9187" ) {
-		$url = "http://nicsepehrapi.com/api/reseller/licenseha";
-	}
+
 
 	return $url . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $action;
 

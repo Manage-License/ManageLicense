@@ -1,7 +1,7 @@
 <?php
 
 if (!defined("WHMCS")) {
-    die("This file cannot be accessed directly");
+	die("This file cannot be accessed directly");
 }
 
 /*
@@ -30,64 +30,69 @@ use WHMCS\Database\Capsule as DB;
 class manageLicense
 {
 
-    public $error = false;
-    public $errorMessage = '';
-    public $message;
-    private $makeUrl;
-    public $response = [];
+	public $error = false;
+	public $errorMessage = '';
+	public $message;
+	private $makeUrl;
+	public $response = [];
 
-    function __construct(array $params, array $newData = [])
-    {
-        $this->generateUrl($params);
-        $this->guzzlelPost($params);
-    }
+	function __construct(array $params, array $newData = [])
+	{
+//	    logActivity(json_encode( $params));
+		$this->generateUrl($params);
+		$this->guzzlelPost($params);
+	}
 
-    public function generateUrl(array $params)
-    {
-        $url = $params['serverhostname'];
-        $type = explode("|", $params['configoption1'])[0];
-        $action = $params['action'];
-        $this->makeUrl = $url . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $action;
-     }
-    protected function guzzlelPost(array $params)
-    {
-        try {
-            $billingcycle = DB::table('tblhosting')
-                ->select('billingcycle')
-                ->where('id', $params['serviceid'])
-                ->first();
-            $client = new GuzzleHttp\Client();
-            $response = $client->post($this->makeUrl, [
+	public function generateUrl(array $params)
+	{
+
+		$url = $params['serverhttpprefix']."://".$params['serverhostname'].$params['serveraccesshash'];
+		$type = explode("|", $params['configoption1'])[0];
+		$action = $params['action'];
+		$this->makeUrl = $url . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $action;
+	}
+	protected function guzzlelPost(array $params)
+	{
+		try {
+			$billingcycle = DB::table('tblhosting')
+			                  ->select('billingcycle')
+			                  ->where('id', $params['serviceid'])
+			                  ->first();
+			$client = new GuzzleHttp\Client();
+
+			$response = $client->post($this->makeUrl, [
 
 //                'debug' => TRUE,
-                'body' => [
-                    'params' => $params,
-                    'billing' => $billingcycle->billingcycle
-                ],
-                'headers' => [
-                    'Content-Type' => 'application/x-www-form-urlencoded',
-                ]
-            ]);
-
-            if ($response->getStatusCode() == '200' && $response->getReasonPhrase() == 'OK') {
-                $data = $response->json();
-                if ($data['result'] == "success") {
-                    $this->response = $data['response'];
-                } else {
-                    $this->error = true;
-                    foreach ($data['message'] as $val) {
-                        $this->errorMessage .= $val . '-';
-                    }
-                    $this->errorMessage = substr($this->errorMessage, 0, -1);
-                }
-            } else {
-                $this->error = true;
-                $this->errorMessage = "result is not valid.";
-            }
-        } catch (Exception $e) {
-             $this->error = true;
-            $this->errorMessage = "Error: " . is_null($e->getResponse()) ? "Return is null (Please contact with administrator) " : $e->getResponse();
-            return $this->errorMessage;
-        }
-    }
+				'form_params' => [
+					'params' => $params,
+					'billing' => $billingcycle->billingcycle
+				],
+				'headers' => [
+					'Content-Type' => 'application/x-www-form-urlencoded',
+				]
+			]);
+			$response->getBody()->getContents();
+			if ($response->getStatusCode() == '200' && $response->getReasonPhrase() == 'OK') {
+//	            var_dump(  \GuzzleHttp\json_decode($response->getBody(), true)     );
+//	            die;
+				$data = \GuzzleHttp\json_decode($response->getBody(), true) ;
+				if ($data['result'] == "success") {
+					$this->response = $data['response'];
+				} else {
+					$this->error = true;
+					foreach ($data['message'] as $val) {
+						$this->errorMessage .= $val . '-';
+					}
+					$this->errorMessage = substr($this->errorMessage, 0, -1);
+				}
+			} else {
+				$this->error = true;
+				$this->errorMessage = "result is not valid.";
+			}
+		} catch (Exception $e) {
+			$this->error = true;
+			$this->errorMessage = "Error: " . is_null($e->getCode()) ? "Return is null (Please contact with administrator) " : $e->getCode();
+			return $this->errorMessage;
+		}
+	}
 }
