@@ -50,21 +50,22 @@ class guzzleMethod extends \Exception {
 	}
 
 	public function generateUrl( array $params ) {
- 		$url           = $params['serverhostname'];
+		$url           = $params['serverhostname'];
 		$type          = (isset( $params['serviceid'] )&&  $params['serviceid'] != 1) ? explode( "|", $params['configoption1'] )[0] : $params['type'];
 		$action        = $params['action'];
 //		$this->makeUrl = $url  ;
 		$this->makeUrl = $url . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . $action;
-  	}
+	}
 
 	protected function guzzlelPost( array $params ) {
+
 		try {
 			$billingcycle = isset( $params['serviceid'] ) ? ( new getServiceInfo( $params ) )->getBilling() : 1;
 			$client       = new Client();
- 			$response = $client->post( $this->makeUrl, [
+			$response = $client->post( $this->makeUrl, [
 
 //                'debug' => TRUE,
-				'body'    => [
+				'form_params'    => [
 					'params'  => $params,
 					'billing' => $billingcycle
 				],
@@ -72,11 +73,10 @@ class guzzleMethod extends \Exception {
 					'Content-Type' => 'application/x-www-form-urlencoded',
 				]
 			] );
-
 			if ( $response->getStatusCode() == '200' && $response->getReasonPhrase() == 'OK' ) {
 
 				$data = $response->json();
-  				if ( $data['result'] == "success" ) {
+				if ( $data['result'] == "success" ) {
 					$this->response = $data['response'];
 				} else {
 					$this->error = true;
@@ -84,7 +84,7 @@ class guzzleMethod extends \Exception {
 						$this->errorMessage .= $val . '-';
 					}
 					$this->errorMessage = substr( $this->errorMessage, 0, - 1 );
- 				}
+				}
 			} else {
 				$this->error        = true;
 				$this->errorMessage = "result is not valid.";
@@ -99,10 +99,10 @@ class guzzleMethod extends \Exception {
 //			$this->errorMessage = "Error: " . is_null( $e->getResponse() ) ? "Return is null (Please contact with administrator) " : $e->getResponse();
 
 
- 			$this->errorMessage = (isset($_SESSION['adminid'] ) && isset($_SESSION['adminpw'])) ? $e->getMessage() : "There is an Error,Please check system Activity Log,Error code is:
+			$this->errorMessage = (isset($_SESSION['adminid'] ) && isset($_SESSION['adminpw'])) ? $e->getMessage() : "There is an Error,Please check system Activity Log,Error code is:
 			 " . (is_null( $e->getCode() ) ?
-			"Return is null and there is not Error code(Please contact with administrator) " :
-			 $e->getCode() .  LogActivity("Manage License Return Error code (".$e->getCode().") Because : ".$e->getMessage()));
+					"Return is null and there is not Error code(Please contact with administrator) " :
+					$e->getCode() .  LogActivity("Manage License Return Error code (".$e->getCode().") Because : ".$e->getMessage()));
 
 			return $this->errorMessage;
 		}catch (\GuzzleHttp\Exception\ServerException $e){
